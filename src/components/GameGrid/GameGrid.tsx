@@ -1,5 +1,8 @@
 import React from 'react';
 import ClickableSquare from '../ClickableSquare/ClickableSquare';
+import { Box } from '@mui/material';
+
+import './GameGrid.css'
 
 const GameGrid = ({
   winnerSquares,
@@ -20,9 +23,9 @@ const GameGrid = ({
         columns.push(renderSquare(cellCounter++));
       }
       board.push(
-        <div key={i} className="board-row">
+        <Box key={i} className="board-row">
           {columns}
-        </div>,
+        </Box>,
       );
     }
 

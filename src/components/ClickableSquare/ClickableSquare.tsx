@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './ClickableSquare.css'
+
 const ClickableSquare = ({
   value,
   winnerClass,

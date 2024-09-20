@@ -1,0 +1,10 @@
+.board-row{
+  display: flex;
+  justify-content: center;
+}
+
+.board-row:after {
+  clear: both;
+  content: '';
+  display: table;
+}
