@@ -2,7 +2,7 @@ export type IHistory = {
   squares: Array<null | string>;
   currentLocation: string;
   stepNumber: number;
-  winner: IWinner
+  winner: IWinner;
 };
 
 export type IWinner = {
