@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-import './ClickableSquare.css'
+import './ClickableSquare.css';
 
-const ClickableSquare = ({
-  value,
-  winnerClass,
-  onClick,
-}: {
-  value: string;
+interface IProps {
+  value: string | null;
   winnerClass: string;
   onClick: () => void;
-}) => (
+}
+
+const ClickableSquare: FC<IProps> = ({ value, winnerClass, onClick }) => (
   <button className={`${winnerClass} square`} onClick={onClick}>
     {value}
   </button>

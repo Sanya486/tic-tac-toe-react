@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -13,115 +13,87 @@ import {
   Typography,
 } from '@mui/material';
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
+import axios from 'axios';
 
 import './TickTacToeGame.css';
 
-import { IButtonColor, IHistory, IWinner } from '../../types/ticTacToe';
-import { calculateWinner } from '../utils/calculateWinner';
-import { getLocation } from '../utils/getLocation';
+import {
+  IButtonColor,
+  IHistory,
+  IRequestBody,
+  IResponse,
+  IWinner,
+} from '../../types/ticTacToe';
 import GameGrid from '../GameGrid/GameGrid';
-import { getRandomIndex } from '../utils/getRandomIndex';
-
-const initialHistory: IHistory[] = [
-  {
-    squares: Array(9).fill(null),
-    currentLocation: '',
-    stepNumber: 0,
-  },
-];
 
 const initialWinner: IWinner = {
   winner: null,
   winnerRow: null,
 };
 
-const TickTacToeGame = () => {
+const initialHistory: IHistory[] = [
+  {
+    squares: Array(9).fill(null),
+    currentLocation: '',
+    stepNumber: 0,
+    winner: initialWinner,
+  },
+];
+
+const url: string = 'http://localhost:1234/move';
+
+const TickTacToeGame: FC = () => {
   const [history, setHistory] = useState<IHistory[]>(initialHistory);
   const [currentStepNumber, setCurrentStepNumber] = useState<number>(0);
   const [xIsNext, setXIsNext] = useState<boolean>(true);
   const [{ winner, winnerRow }, setWinner] = useState<IWinner>(initialWinner);
   const [isPlayWithComputer, setIsPlayWithComputer] = useState<boolean>(false);
 
-  useEffect(() => {
-    setWinner(calculateWinner(history[currentStepNumber]?.squares) as IWinner);
-  }, [history, currentStepNumber]);
-
-  const handleClick = (i: number): void => {
-    const gameHistory: IHistory[] = history.slice(0, currentStepNumber + 1);
+  const handleClick = async (i: number): Promise<void> => {
     const current: IHistory = history[history.length - 1];
     const squares: (string | null)[] = current.squares.slice();
 
-    if (calculateWinner(squares).winner || squares[i]) {
-      return;
-    }
-    squares[i] = xIsNext ? 'X' : 'O';
-
-    const currentLocation: string = getLocation(i);
-
-    const userClick: IHistory[] = [
-      {
-        squares,
-        currentLocation,
-        stepNumber: history.length,
-      },
-    ];
-
-    const winner: string | null = calculateWinner(squares).winner;
-    
-    const isPCTurn: boolean =
-      isPlayWithComputer && !winner && history.length < 9;
-
-    if (isPCTurn) {
-      const emptyIndexes: number[] = [];
-
-      const handleEmptyIndexes = (
-        square: string | null,
-        index: number,
-      ): void => {
-        if (square === null) {
-          emptyIndexes.push(index);
-        }
-      };
-
-      const squareCopy: Array<string | null> = squares.slice();
-
-      squareCopy.forEach(handleEmptyIndexes);
-
-      const randomIndex: number = getRandomIndex(emptyIndexes.length);
-      const randomElement: number = emptyIndexes[randomIndex];
-
-      squareCopy[randomElement] = !xIsNext ? 'X' : 'O';
-
-      const currentLocation: string = getLocation(randomElement);
-
-      setHistory(() => [
-        ...history,
-        ...userClick,
-        {
-          squares: squareCopy,
-          currentLocation,
-          stepNumber: history.length + 1,
-        },
-      ]);
-
-      setCurrentStepNumber(gameHistory.length + 1);
+    if (winner || squares[i]) {
       return;
     }
 
-    setHistory(() => [...history, ...userClick]);
-    setCurrentStepNumber(gameHistory.length);
-    setXIsNext(!xIsNext);
+    const body: IRequestBody = {
+      history,
+      currentStepNumber,
+      isPlayWithComputer,
+      i,
+      xIsNext,
+    };
+
+    let response: IResponse | null = null;
+
+    try {
+      response = await axios.post(url, body);
+    } catch (error) {
+      console.log(error);
+    }
+
+    if (response) {
+      setHistory(response.data.newHistory);
+      setCurrentStepNumber(response.data.currentStepNumber);
+      setXIsNext(response.data.xIsNext);
+      setWinner(
+        response.data.newHistory[response.data.newHistory.length - 1].winner,
+      );
+    }
   };
 
   const jumpTo = (step: number): void => {
     setCurrentStepNumber(step);
     setXIsNext(step % 2 === 0);
+    setWinner(history[step].winner);
   };
 
   const reset = (): void => {
     setHistory(initialHistory);
     setCurrentStepNumber(0);
     setXIsNext(true);
+    setWinner(initialWinner);
   };
 
   const getGameStatus = (): string => {
