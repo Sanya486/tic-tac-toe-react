@@ -1,5 +1,7 @@
 # Tic Tac Toe in React
 
+[![Demo](/tic-tac-toe-demo.gif)
+
 A simple and interactive Tic Tac Toe game built with React. This project showcases fundamental React concepts, including component state management and event handling.
 
 ## Features
