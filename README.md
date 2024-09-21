@@ -26,23 +26,24 @@ To run the project locally, follow these steps:
    ```
 
 2. **Navigate to the project directory:**
-
+```bash
 cd tic-tac-toe-react
-
+```
 3. **Install dependencies:**
-
+```bash
 npm install 
-
+```
 4. **Start the development server:**
-
+```bash
 npm start
+```
 Open your browser and go to http://localhost:3000 to see the game in action!
 
 ## How to Play
 
-Players take turns to place their mark (X or O) in an empty cell.
-The first player to get three of their marks in a row (vertically, horizontally, or diagonally) wins the game.
-Click the "Reset" button to start a new game.
+- Players take turns to place their mark (X or O) in an empty cell.
+- The first player to get three of their marks in a row (vertically, horizontally, or diagonally) wins the game.
+- Click the "Reset" button to start a new game.
 
 ## Contributing
 
