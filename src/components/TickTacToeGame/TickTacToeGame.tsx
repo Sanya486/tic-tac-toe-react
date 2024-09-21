@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -48,6 +48,13 @@ const TickTacToeGame: FC = () => {
   const [xIsNext, setXIsNext] = useState<boolean>(true);
   const [{ winner, winnerRow }, setWinner] = useState<IWinner>(initialWinner);
   const [isPlayWithComputer, setIsPlayWithComputer] = useState<boolean>(false);
+  const [gameOver, setGameOver] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (winner || history.length === 10) {
+      setGameOver(true);
+    }
+  }, [winner, history]);
 
   const handleClick = async (i: number): Promise<void> => {
     const current: IHistory = history[history.length - 1];
@@ -84,6 +91,10 @@ const TickTacToeGame: FC = () => {
   };
 
   const jumpTo = (step: number): void => {
+    if (!gameOver) {
+      return;
+    }
+
     setCurrentStepNumber(step);
     setXIsNext(step % 2 === 0);
     setWinner(history[step].winner);
@@ -94,6 +105,7 @@ const TickTacToeGame: FC = () => {
     setCurrentStepNumber(0);
     setXIsNext(true);
     setWinner(initialWinner);
+    setGameOver(false);
   };
 
   const getGameStatus = (): string => {
