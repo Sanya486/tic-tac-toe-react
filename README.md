@@ -26,17 +26,17 @@ To run the project locally, follow these steps:
    ```
 
 2. **Navigate to the project directory:**
-```bash
-cd tic-tac-toe-react
-```
+    ```bash
+    cd tic-tac-toe-react
+    ```
 3. **Install dependencies:**
-```bash
-npm install 
-```
+    ```bash
+    npm install 
+    ```
 4. **Start the development server:**
-```bash
-npm start
-```
+    ```bash
+    npm start
+    ```
 Open your browser and go to http://localhost:3000 to see the game in action!
 
 ## How to Play
