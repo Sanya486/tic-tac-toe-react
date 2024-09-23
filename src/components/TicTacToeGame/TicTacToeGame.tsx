@@ -15,7 +15,7 @@ import {
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 import axios from 'axios';
 
-import './TickTacToeGame.css';
+import './TicTacToeGame.css';
 
 import {
   IButtonColor,
@@ -42,7 +42,7 @@ const initialHistory: IHistory[] = [
 
 const url: string = 'http://localhost:1234/move';
 
-const TickTacToeGame: FC = () => {
+const TicTacToeGame: FC = () => {
   const [history, setHistory] = useState<IHistory[]>(initialHistory);
   const [currentStepNumber, setCurrentStepNumber] = useState<number>(0);
   const [xIsNext, setXIsNext] = useState<boolean>(true);
@@ -203,4 +203,4 @@ const TickTacToeGame: FC = () => {
   );
 };
 
-export default TickTacToeGame;
+export default TicTacToeGame;

@@ -6,13 +6,13 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import './App.css';
-import TickTacToeGame from './components/TickTacToeGame/TickTacToeGame';
+import TicTacToeGame from './components/TicTacToeGame/TicTacToeGame';
 import { Container } from '@mui/material';
 
 function App() {
   return (
     <Container>
-      <TickTacToeGame />
+      <TicTacToeGame />
     </Container>
   );
 }
